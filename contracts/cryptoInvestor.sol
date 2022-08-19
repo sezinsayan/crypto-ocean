@@ -4,10 +4,14 @@ pragma solidity ^0.8.9;
 contract CryptoInvestor{
     enum Role{
             PARENT,
-            CHILD
+            CHILD,
+            ADMIN
     }
+    address public admin;
     constructor(){
+        string memory AName;
 
+        admin=msg.sender;
     }
     struct Parent{
         
@@ -28,13 +32,37 @@ contract CryptoInvestor{
         parent.addr = addr; 
         parent.phoneNum=phoneNum;
     }
+    struct Child{
+        string name;
+        address addr;
+        uint256 idNumber;
+        uint256 balance;
+        uint256 withdrawDate;
+    }
+
+    mapping(address=>Child) public children;
+    function addChild(address addr,string memory name,uint idNumber,uint256 withdrawDate) public{
+        Child storage _child = children[addr];
+
+        require(_child.addr == address(0),"Address is already added!");
+
+        _child.name=name;
+        _child.addr=addr;
+        _child.idNumber = idNumber;
+        _child.withdrawDate = withdrawDate;
+    
+    }
+    function getParents() public returns(string memory, string memory){
+        return ("","");
+    }
     
     function giveRoles(address _addr) public view returns(Role){
         if(parents[_addr].addr==_addr)
             return Role.PARENT;
-        else{
+        else if(children[_addr].addr==_addr){
             return Role.CHILD;
         }
+        else return Role.ADMIN;
 
     }
     
