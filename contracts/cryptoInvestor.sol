@@ -5,12 +5,11 @@ contract CryptoInvestor{
     enum Role{
             PARENT,
             CHILD,
-            ADMIN
+            ADMIN,
+            NOROLE
     }
     address public admin;
     constructor(){
-        string memory AName;
-
         admin=msg.sender;
     }
     struct Parent{
@@ -62,8 +61,10 @@ contract CryptoInvestor{
         else if(children[_addr].addr==_addr){
             return Role.CHILD;
         }
-        else return Role.ADMIN;
-
+        //else if return Role.ADMIN;
+        else {
+        return Role.NOROLE; 
+        }    
     }
     
 

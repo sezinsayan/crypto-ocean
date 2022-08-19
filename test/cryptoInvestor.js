@@ -42,12 +42,6 @@ describe("cryptoInvestor", function () {
             expect(parents.phoneNum).equal(phoneNum);
         })
         it("Role Call",async function (){
-            const addr = "0xB0FcDb49CE99482702C1CbBc0A183E570353a707";
-            const first_name = "Sezin";
-            const last_name = "Sayan";
-            const phoneNum= "05372834";
-
-            const tx = await crypto.addInvestor(addr, first_name,last_name,phoneNum);
             const role = await crypto.giveRoles(addr);
             console.log("Role",role);
         
