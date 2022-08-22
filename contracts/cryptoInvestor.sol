@@ -19,10 +19,13 @@ contract CryptoInvestor{
         string last_name;
         address addr;
         string phoneNum;
+        
          
     }
 //add and update
     mapping(address=>Parent) public parents ;
+    address[] parentList;
+
     function addInvestor(address addr, string memory first_name, string memory last_name,string memory phoneNum) public {
         Parent storage parent = parents[addr];
         require(parent.addr == address(0),"Address is already added!");
@@ -30,6 +33,7 @@ contract CryptoInvestor{
         parent.last_name = last_name;
         parent.addr = addr; 
         parent.phoneNum=phoneNum;
+        parentList.push(addr);
     }
     struct Child{
         string name;
@@ -51,17 +55,27 @@ contract CryptoInvestor{
         _child.withdrawDate = withdrawDate;
     
     }
-    function getParents() public returns(string memory, string memory){
-        return ("","");
+    function getParents() public view returns(Parent[] memory res){
+        res= new Parent[](parentList.length);
+        for(uint i=0;i< parentList.length;i++){
+            res[i]=parents[parentList[i]];
+        }
+
     }
-    
+    function removeParent(address addr) public {
+        //if parent dies
+        delete parents[addr];
+    }
+
     function giveRoles(address _addr) public view returns(Role){
         if(parents[_addr].addr==_addr)
             return Role.PARENT;
         else if(children[_addr].addr==_addr){
             return Role.CHILD;
         }
-        //else if return Role.ADMIN;
+        else if(admin==msg.sender)
+        return Role.ADMIN;
+        
         else {
         return Role.NOROLE; 
         }    
