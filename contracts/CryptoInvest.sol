@@ -32,19 +32,6 @@ contract CryptoInvest{
         return _childrenOfInvestor;
     }
 
-    function addChild(address  addr,string memory name,uint idNumber,uint256 withdrawDate) public {
-        Child storage _child = children[addr];
-        Investor storage investor = investors[msg.sender];
-        require(_child.addr == address(0),"Address is already added!");
-        
-        _child.name=name;
-        _child.addr=addr;
-        _child.idNumber = idNumber;
-        _child.withdrawDate = withdrawDate;
-        investor.childrenList.push(addr);
-
-    }
-
 
     
 }
