@@ -19,20 +19,22 @@ contract CryptoInvestor{
         string last_name;
         address addr;
         string phoneNum;
+        uint256 balance;
         
          
     }
-//add and update
+
     mapping(address=>Parent) public parents ;
     address[] parentList;
-
-    function addInvestor(address addr, string memory first_name, string memory last_name,string memory phoneNum) public {
+//add and update
+    function addInvestor(address addr, string memory first_name, string memory last_name,string memory phoneNum,uint256 balance) public {
         Parent storage parent = parents[addr];
         require(parent.addr == address(0),"Address is already added!");
         parent.first_name = first_name;
         parent.last_name = last_name;
         parent.addr = addr; 
         parent.phoneNum=phoneNum;
+        parent.balance=balance;
         parentList.push(addr);
     }
     struct Child{
