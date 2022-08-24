@@ -19,9 +19,10 @@ describe("cryptoInvestor", function () {
             const first_name = "Sezin";
             const last_name = "Sayan";
             const phoneNum= "05372834";
+            const balance= 45;
       
-            await crypto.addInvestor(addr, first_name,last_name,phoneNum);
-            const promise = crypto.addInvestor(addr, first_name,last_name,phoneNum);
+            await crypto.addInvestor(addr, first_name,last_name,phoneNum,balance);
+            const promise = crypto.addInvestor(addr, first_name,last_name,phoneNum,balance);
             
             await expect(promise).eventually.rejectedWith("Address is already added!");
           
@@ -31,9 +32,10 @@ describe("cryptoInvestor", function () {
             const first_name = "Sezin";
             const last_name = "Sayan";
             const phoneNum= "05372834";
+            const balance= 45;
 
     
-            const tx = await crypto.addInvestor(addr, first_name,last_name,phoneNum);
+            const tx = await crypto.addInvestor(addr, first_name,last_name,phoneNum,balance);
             const parents = await crypto.parents(addr);
             const test= await crypto.getParents();
             console.log("Parent list", test);
@@ -42,6 +44,11 @@ describe("cryptoInvestor", function () {
             expect(parents.last_name).equal(last_name);
             expect(parents.addr).equal(addr);
             expect(parents.phoneNum).equal(phoneNum);
+            expect(parents.balance).equal(balance);
+        })
+        it("Parent List",async function (){
+            const test= await crypto.getParents();
+            console.log("Parent list", test);
         })
         it("Role Call",async function (){
             const addr = "0xB0FcDb49CE99482702C1CbBc0A183E570353a707";
