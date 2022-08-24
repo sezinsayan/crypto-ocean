@@ -9,8 +9,20 @@ contract CryptoInvest{
         uint256 balance;
         uint256 withdrawDate;
     }
+    struct Investor{
+
+        string fullName;
+
+        address addr;
+
+        uint256 idNumber;
+
+        address[] childrenList;
+
+    }
 
     mapping(address=>Child) public children;
+    mapping(address=> Investor) public investors;
     function addChild(address addr,string memory name,uint balance,uint idNumber,uint256 withdrawDate) public{
         Child storage _child = children[addr];
 
@@ -22,44 +34,38 @@ contract CryptoInvest{
         _child.idNumber = idNumber;
         _child.withdrawDate = withdrawDate;
     
-    }
-    event TransferReceived(address _from, uint _amount);
-    event TransferSent(address _from, address _destAddr, uint _amount);
+    } 
     
-    function getChildAddress()public view returns(address){
-        address a;
-        Child storage Children = children[a];
-        return(Children.addr);
-    }
+    function send(address childAddress) payable external {
+        Child storage child = children [childAddress];
+        require(child.addr !=address(0), "The child is not registered");
+        child.balance += msg.value;
 
-    function getChildBalance()public view returns(uint256){
-        address a;
-        Child storage Children = children[a];
-        return(Children.balance);
 
     } 
 
-    
-    uint256 BalanceOfChild=getChildBalance();
-    address AddressOfChild = getChildAddress(); 
-    
-    receive() payable external {
-        BalanceOfChild += msg.value;
-        emit TransferReceived(msg.sender, msg.value);
-    } 
+    function withdrawchild(uint amount) public {
+        Child storage child = children [msg.sender];
+        require(msg.sender == child.addr, "Only owner can withdraw funds"); 
+        require(amount <= child.balance, "Insufficient funds");
 
-    function withdraw(uint amount, address payable destAddr) public {
-        require(msg.sender == AddressOfChild, "Only owner can withdraw funds"); 
-        require(amount <= BalanceOfChild, "Insufficient funds");
-        
-        destAddr.transfer(amount);
-        BalanceOfChild -= amount;
-        emit TransferSent(msg.sender, destAddr, amount);
+        child.balance -= amount;
+        payable (msg.sender).transfer(amount);
     }
-    function Admin() public view returns(address){
-        address admin;
-        admin=msg.sender;
-        return(admin);
+    function withdrawinvestor(uint amount,address payable childAddress) public {
+        Child storage child = children [childAddress];
+        Investor storage parent = investors [msg.sender];
+        require(msg.sender==parent.addr,"Only parents can withdraw funds");
+        bool ischild;
+        for(uint i=0;i<parent.childrenList.length;i++){
+            if(parent.childrenList[i]==child.addr){
+                ischild=true;
+            }
+        }
+        require(ischild,""); 
+        require(amount <= child.balance, "Insufficient funds");
+
+        child.balance -= amount;
+        childAddress.transfer(amount);
     }
-    address Adminstator=Admin();
 }
