@@ -66,14 +66,4 @@ contract CryptoOcean{
         return false;
     }
 
-
-
-    
-    
-        
-
-    
-    
-    
-
 }

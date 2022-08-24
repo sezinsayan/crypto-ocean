@@ -3,7 +3,6 @@ var chai = require('chai');
 var expect = chai.expect;    
 const chaiAsPromised = require("chai-as-promised");
 
-
 chai.use(chaiAsPromised);
 
 describe("CryptoOcean", function () {
@@ -17,7 +16,6 @@ describe("CryptoOcean", function () {
     console.log("admin: ",admin)
   })
   
-
   beforeEach(async () => {
     const CryptoOcean = await hre.ethers.getContractFactory("CryptoOcean");
     crypto = await CryptoOcean.deploy();
