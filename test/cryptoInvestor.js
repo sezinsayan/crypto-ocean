@@ -21,7 +21,7 @@ describe("cryptoInvestor", function () {
     
     describe("CheckingOnce", function () {
         it("Should not add more than once", async function () {
-            const addr = "0xB0FcDb49CE99482702C1CbBc0A183E570353a707";
+            const addr = "0xF23c8222ED8B7aE715404F577Aa03Ac4A759526F";
             const first_name = "Sezin";
             const last_name = "Sayan";
             const phoneNum= "05372834";
@@ -34,7 +34,7 @@ describe("cryptoInvestor", function () {
           
         })
         it("Right mapping for Parent", async function () {
-            const addr = "0xB0FcDb49CE99482702C1CbBc0A183E570353a707";
+            const addr = "0xF23c8222ED8B7aE715404F577Aa03Ac4A759526F";
             const first_name = "Sezin";
             const last_name = "Sayan";
             const phoneNum= "05372834";
