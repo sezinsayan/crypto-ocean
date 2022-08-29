@@ -85,10 +85,14 @@ contract CryptoInvestor{
         require(child.addr !=address(0), "The child is not registered");
         child.balance += msg.value;
 
-
     } 
+
     function deleteChild (address _addr) public {
         delete(children[_addr]);
+    }
+
+    function getChild(address _addr) public view returns(Child memory child){
+        child=children[_addr];
     }
 
     function getChildrenList (address _addressOfInvestor) public view returns (Child[] memory){
