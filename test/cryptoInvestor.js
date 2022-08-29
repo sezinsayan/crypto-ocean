@@ -54,24 +54,22 @@ describe("cryptoInvestor", function () {
         it("Right mapping for Child", async function () {
             const addr = "0xB0FcDb49CE99482702C1CbBc0A183E570353a707";
             const name = "Canbora";
-            const idNumber = 26052484562;
+
             const withdrawDate = 1787778000;
       
-            const tx = await crypto.addChild(addr, name,idNumber,withdrawDate);
+            const tx = await crypto.addChild(addr, name,withdrawDate);
             const children = await crypto.children(addr);
       
             expect(children.name).equal(name);
             expect(children.addr).equal(addr);
-            expect(children.idNumber).equal(idNumber);
             expect(children.withdrawDate).equal(withdrawDate);
         })
         it("Should not be admin address",async function () {
             const addr = "0xB0FcDb49CE99482702C1CbBc0A183E570353a707";
             const name = "Canbora";
-            const idNumber = 26052484562;
             const withdrawDate = 1787778000;
               
-            const promise = crypto.addChild(admin, name,idNumber,withdrawDate);
+            const promise = crypto.addChild(admin, name,withdrawDate);
             await expect(promise).revertedWith("This is admin address");
           })
         it("Parent List",async function (){
@@ -87,10 +85,9 @@ describe("cryptoInvestor", function () {
         it("address has to be in childlistofparents",async function () {
             const addr = "0xB0FcDb49CE99482702C1CbBc0A183E570353a707";
             const name = "Canbora";
-            const idNumber = 26052484562;
             const withdrawDate = 1787778000;
       
-            await crypto.addChild(addr, name,idNumber,withdrawDate);
+            await crypto.addChild(addr, name,withdrawDate);
             const tr=await crypto.isChildofParentList(addr); 
             expect(tr).equal(true);
           
@@ -100,7 +97,6 @@ describe("cryptoInvestor", function () {
         it("Delete process", async function () {
           const addr = "0xB0FcDb49CE99482702C1CbBc0A183E570353a707";
           const name = "fatih";
-          const idNumber = 2222220;
           const withdrawDate = 30;
           const balance = 21;
     
@@ -108,7 +104,6 @@ describe("cryptoInvestor", function () {
           const children = await crypto.children(addr);
     
           expect(children.name).equal('');
-          expect(children.idNumber).equal('');
         })
       })
     
@@ -117,9 +112,9 @@ describe("cryptoInvestor", function () {
           const investorAddress=wallets[0].address;
     
     
-          await crypto.addChild("0xB0FcDb49CE99482702C1CbBc0A183E570353a707","a",0,1);
-          await crypto.addChild("0x99CF4c4CAE3bA61754Abd22A8de7e8c7ba3C196d","b",0,1);
-          await crypto.addChild("0x1439818DD11823c45fFF01aF0Cd6c50934e27Ac0","c",0,1);
+          await crypto.addChild("0xB0FcDb49CE99482702C1CbBc0A183E570353a707","a",1);
+          await crypto.addChild("0x99CF4c4CAE3bA61754Abd22A8de7e8c7ba3C196d","b",1);
+          await crypto.addChild("0x1439818DD11823c45fFF01aF0Cd6c50934e27Ac0","c",1);
           const childList = await crypto.getChildrenList(investorAddress);
           console.log("-----------",childList);
           expect(childList[0].addr)=="0xB0FcDb49CE99482702C1CbBc0A183E570353a707";

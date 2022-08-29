@@ -40,13 +40,12 @@ contract CryptoInvestor{
     struct Child{
         string name;
         address addr;
-        uint256 idNumber;
         uint256 balance;
         uint256 withdrawDate;
     }
 
     mapping(address=>Child) public children;
-    function addChild(address  addr,string memory name,uint idNumber,uint256 withdrawDate) public {
+    function addChild(address  addr,string memory name,uint256 withdrawDate) public {
         Child storage _child = children[addr];
         Parent storage parent = parents[msg.sender];
 
@@ -55,7 +54,7 @@ contract CryptoInvestor{
         
         _child.name=name;
         _child.addr=addr;
-        _child.idNumber = idNumber;
+    
         _child.withdrawDate = withdrawDate;
         parent.childrenList.push(addr);
     }
